@@ -1,0 +1,23 @@
+body {
+    background-color: rgb(165, 226, 43); 
+    color: rgb(239, 231, 231);
+    width: 300px;
+    height: 400px;
+    border: 8px solid  rgb(255, 0, 208);
+    border-radius: 30px;
+    padding: 20px;
+    margin: 45px;
+    
+}
+
+input {
+    background-color: rgb(33, 177, 64);
+    color: white;
+    width: 90%;
+    border: 1px solid rgb(47, 17, 182);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+}
+
+
