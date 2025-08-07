@@ -18,7 +18,8 @@ HTML Elements & Valid Usage:
 <main>: Holds primary content with headings.
 <footer>: Always positioned at the bottom with copyright.
 
-2. CSS GRID LAYOUT (Exp3.css)
+2. CSS GRID LAYOUT (styles.css)
+
 Dashboard Grid Container (.dashboard)
 display: grid;: Enables CSS Grid for layout control.
 grid-template-columns: 200px auto;: Divides layout into a 200px fixed sidebar and a flexible content area.
