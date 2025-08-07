@@ -1,0 +1,53 @@
+ ADMIN DASHBOARD INTERFACE DESCRIPTION & VALIDATIONS
+
+1. LAYOUT DESIGN (HTML Structure)
+The dashboard consists of four major sections:
+
+Header: Contains the title of the dashboard and a toggle for Dark Mode.
+Navigation (Sidebar): Provides links to different sections like Home, Users, and Settings.
+Main Content: Displays the welcome message and space for charts, tables, or reports.
+Footer: Shows copyright information.
+
+Validation Rule:
+Each section must render properly in its respective grid position regardless of screen size.
+
+HTML Elements & Valid Usage:
+<div>: created a class named dashbord 
+<header>: Always contains an <h1> for dashboard title and a checkbox for theme switching.
+<nav>: Must include a <ul> with <li> elements, each containing a valid hyperlink (<a>).
+<main>: Holds primary content with headings.
+<footer>: Always positioned at the bottom with copyright.
+
+2. CSS GRID LAYOUT (Exp3.css)
+Dashboard Grid Container (.dashboard)
+display: grid;: Enables CSS Grid for layout control.
+grid-template-columns: 200px auto;: Divides layout into a 200px fixed sidebar and a flexible content area.
+grid-template-rows: 100px auto 50px;: Sets fixed heights for header (100px) and footer (50px) while keeping the content area flexible.
+height: 100vh;: Makes the dashboard occupy the entire browser height.
+
+3. INDIVIDUAL SECTIONS STYLING
+Header
+border: 1px solid #ccc;: Gives a light border to separate it visually.
+background-color: #069c06;: Sets a green background for strong visual branding.
+grid-column: 1 / span 2;: Spans across both columns (covers full width).
+
+Navigation (Sidebar)
+border: 1px solid #ccc;: Adds boundary separation.
+background-color: #d4cfcf;: Provides a light gray background to distinguish it from the main content.
+
+Main Content
+border: 1px solid #ccc;: Keeps separation from other sections.
+background-color: #ffffff;: Uses a clean white background for content readability.
+
+Footer
+border: 1px solid #ccc;: Adds top boundary line.
+background-color: #069c06;: Matches header theme for uniform design.
+text-align: center;: Centers the footer text horizontally.
+grid-column: 1 / span 2;: Stretches across full width like the header.
+
+4. THEME SWITCHING (DARK MODE PREPARATION)
+A checkbox input (id="toggleMenu") is added in the header to enable theme switching.
+
+Validation Rule:
+Checkbox toggles must not break grid alignment.
+Dark mode styles will later override default backgrounds.       

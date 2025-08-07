@@ -1,24 +1,49 @@
 header{
-    border: 1px solid #eeeeee;
-    background-color: #3cd21a;
-    grid-column: 1/span 2;
+    border: 1px solid #ccc;
+    background-color: var(--bg-header);
+    grid-column: 1 / span 2; 
 }
-nav {
-    border: 1px solid #eee;
-    background-color: #a9b0a8;
-    grid-template-columns: 60px auto;
+
+nav{
+    border: 1px solid #ccc;
+    background-color: var(--bg-nav);
 }
-main {
-    border: 1px solid #eee;
-    background-color: #f0f0f0;
+
+main{
+    border: 1px solid #ccc;
+    background-color: var(--bg-main);
 }
-footer {
-    border: 1px solid #eee;
-    background-color: #3cd21a;
-    grid-column: 1/span 2;
+
+footer{
+    border: 1px solid #ccc;
+    background-color: var(--bg-footer);
+    text-align: center;
+    grid-column: 1 / span 2;
 }
-body {
+
+.dashboard{
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 200px auto;
+    grid-template-rows: 100px auto 50px; 
     height: 100vh;
+}
+
+:root {
+    --bg-header: #069c06;
+    --bg-nav: #d4cfcf;
+    --bg-main: #ffffff;
+    --bg-footer: #069c06;
+    --text-color: #000000;
+}
+
+input:checked ~ .dashboard {
+    --bg-header: #354537;
+    --bg-nav: #858383;
+    --bg-main: #877c7c;
+    --bg-footer: #354537;
+    --text-color: #000000;
+}
+
+#themeToggle {
+    display: none;
 }
