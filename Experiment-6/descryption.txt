@@ -1,0 +1,54 @@
+Description:
+
+This project is a web-based SVG Drawing Tool that enables users to draw freehand lines directly inside a browser window. It is implemented using HTML for structure, CSS for styling, and JavaScript for interactivity.
+
+Structure (HTML)
+
+The main layout contains a drawing container with a title, an SVG canvas, and a hint message.
+
+The <svg> element (id="drawArea") with dimensions 800×400 acts as the drawing surface where users can sketch with the mouse.
+
+A guiding note is provided to inform users how to draw: “Click and drag inside the box to draw lines. Release mouse to finish a line. Draw again to start a new line.”
+
+Styling (CSS)
+
+The drawing container is styled with borders, padding, and a white background for clarity.
+
+The SVG area has a light background and a solid border to make it stand out.
+
+Lines drawn on the SVG are styled with a blue stroke (#0a74c9), 2px thickness, and no fill.
+
+A hint message is styled with a smaller font and a subtle color for readability.
+
+Functionality (JavaScript)
+
+Initialization: The script waits for the DOM to load and then references the SVG element.
+
+Mouse Down:
+
+Starts the drawing process.
+
+Records the first mouse position inside the SVG.
+
+Creates a new <path> element and moves to the starting point (M x y).
+
+Mouse Move:
+
+Tracks mouse movement while drawing is active.
+
+Continuously appends line segments (L x y) to the <path> to follow the cursor.
+
+Mouse Up / Mouse Leave:
+
+Ends the drawing process.
+
+Resets state variables so that a new line can start when the user clicks again.
+
+Key Concept
+
+The drawing is achieved by dynamically updating the d attribute of an SVG <path> element, which defines the sequence of points that make up the line.
+
+Each time the mouse moves, the path grows with new coordinates, creating the effect of freehand drawing.
+
+Overall, this project demonstrates how to combine SVG graphics, DOM manipulation, and mouse events to implement a lightweight drawing application in the browser.
+
