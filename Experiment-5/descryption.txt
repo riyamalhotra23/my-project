@@ -1,0 +1,33 @@
+Description:
+
+This project is a simple SVG-based drawing tool that allows a user to draw freehand lines inside a browser using mouse interactions. The application is built with HTML, CSS, and JavaScript, where the <svg> element acts as the drawing canvas.
+
+Working
+
+The webpage displays a titled drawing area (SVG Drawing Tool) with an 800×400 SVG canvas.
+
+When the user clicks and drags the mouse inside the canvas, a new <path> element is created, and the line is continuously updated with each mouse movement.
+
+The path is constructed by recording mouse coordinates and joining them with line segments (L) in SVG.
+
+Releasing the mouse (or moving it outside the SVG) ends the current line, and the user can start a new one.
+
+Styling
+
+The drawing area and container are styled with borders, padding, and background colors for a clean look.
+
+Lines are styled with a blue stroke (#0a74c9), 2px thickness, and no fill.
+
+A hint message guides the user on how to draw lines.
+
+Script Logic
+
+Initialization: Waits for the DOM to load and selects the SVG element.
+
+Mouse Down: Starts a new path and stores the first point.
+
+Mouse Move: Adds new points to the array and updates the <path> d attribute dynamically.
+
+Mouse Up / Leave: Ends the drawing process and resets variables.
+
+Overall, this tool demonstrates how SVG paths, event listeners, and mouse position tracking can be combined to implement a lightweight freehand drawing feature in the browser.
