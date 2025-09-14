@@ -1,0 +1,20 @@
+A ProductCard component is a reusable UI element commonly used in web apps (especially e-commerce sites) to display product information in a compact, visually appealing way.
+
+Here’s a typical description text for a ProductCard component:
+
+🔹 Description:
+The ProductCard component is a UI card that showcases product details such as an image, title, price, and description. It can also include features like ratings, discounts, and action buttons (e.g., "Add to Cart", "Wishlist", "Buy Now"). This component helps users quickly browse and evaluate products without navigating into detailed product pages.
+
+🔹 Key Features:
+
+Displays product image prominently
+
+Shows product name/title and price clearly
+
+Optionally includes short product description or highlights
+
+Can display ratings, reviews, or badges (e.g., "Best Seller", "New")
+
+Supports action buttons for quick user interaction
+
+Responsive design for different screen sizes
