@@ -1,0 +1,57 @@
+1. Introduction
+REST (Representational State Transfer) is an architectural style used for designing networked applications. A REST API (Application Programming Interface) allows communication between a client and a server over HTTP by following REST principles. It provides a simple, lightweight, and scalable way to perform operations on resources like data, files, or services.
+
+2. Key Features of REST APIs
+Stateless: Each request from the client to the server must contain all the necessary information; the server does not store client state between requests.
+
+Client-Server Model: The client (frontend) and server (backend) remain independent, communicating only via requests and responses.
+
+Uniform Interface: REST APIs follow standard HTTP methods (GET, POST, PUT, DELETE) for resource operations.
+
+Resource-Based: Everything in REST is treated as a resource, identified by a unique URI (Uniform Resource Identifier).
+
+Scalable and Lightweight: REST APIs are simple to implement, making them suitable for web and mobile applications.
+
+3. HTTP Methods in REST
+GET – Retrieve data from the server.
+Example: GET /employees → returns a list of employees.
+
+POST – Create a new resource on the server.
+Example: POST /employees → adds a new employee.
+
+PUT – Update an existing resource.
+Example: PUT /employees/101 → updates details of employee with ID 101.
+
+DELETE – Remove a resource from the server.
+Example: DELETE /employees/101 → deletes employee 101.
+
+4. Example of REST API Endpoint
+Endpoint (URI): https://api.company.com/employees/101
+
+Method: GET
+
+Response (JSON):
+
+json
+Copy code
+{
+  "id": 101,
+  "name": "Alice",
+  "designation": "Software Engineer"
+}
+5. Advantages of REST APIs
+Platform-independent and language-agnostic.
+
+Easy integration with web and mobile applications.
+
+Uses widely adopted HTTP standards.
+
+Supports scalability and performance.
+
+6. Limitations
+Less suitable for real-time applications compared to WebSockets.
+
+Over-fetching or under-fetching of data can occur.
+
+Requires good API documentation for effective use.
+
