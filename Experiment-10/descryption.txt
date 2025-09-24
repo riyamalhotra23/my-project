@@ -1,0 +1,94 @@
+1. Introduction
+A Command-Line Interface (CLI) Employee Management System is a text-based program that allows users to manage employee records interactively through the terminal. Unlike graphical user interfaces (GUI), a CLI relies on textual menus, prompts, and user inputs to perform operations such as adding, listing, and removing employees.
+
+2. Purpose of the UI
+The purpose of the CLI UI in this system is to:
+
+Provide an easy-to-use interactive menu for employee management.
+
+Enable users to perform CRUD operations (Create, Read, Update, Delete) in a step-by-step structured flow.
+
+Maintain simplicity for beginners while demonstrating real-world menu-driven applications in Node.js.
+
+3. Structure of the CLI UI
+Main Menu
+
+Displays the title: “Employee Management System”.
+
+Provides four numbered options:
+
+Add Employee
+
+List Employees
+
+Remove Employee
+
+Exit
+
+User Input & Navigation
+
+The program prompts the user: “Enter your choice:”.
+
+Based on input (1–4), the corresponding function is executed.
+
+Add Employee
+
+UI asks for employee details:
+
+“Enter employee name:”
+
+“Enter employee ID:”
+
+Shows confirmation message upon successful addition.
+
+List Employees
+
+Displays all employees in a numbered list with their name and ID.
+
+Example:
+
+yaml
+Copy code
+Employee List:
+1. Name: Alice, ID: E101
+2. Name: Bob, ID: E102
+Remove Employee
+
+UI prompts: “Enter employee ID to remove:”.
+
+Shows success or error message depending on whether the ID exists.
+
+Exit
+
+Displays a farewell message:
+“Exiting Employee Management System. Goodbye!”
+
+Ends the CLI session.
+
+4. Characteristics of CLI UI in this System
+Text-based: Works entirely within the terminal without graphics.
+
+Menu-driven: Provides a clear numbered menu for navigation.
+
+Interactive: Responds to user input in real-time.
+
+Error Handling: Validates input and shows error messages for invalid entries.
+
+Sequential Flow: Guides the user step by step for each operation.
+
+5. Advantages of CLI UI
+Simple and lightweight – no additional UI libraries required.
+
+Easy to implement and understand for beginners.
+
+Faster execution compared to GUIs.
+
+Can be run on any system with Node.js installed.
+
+6. Limitations
+Not visually appealing compared to GUI applications.
+
+Requires memorizing commands or navigating through menus manually.
+
+Limited scalability for complex systems.
+
