@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grocery List</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .grocery-form {
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .grocery-list {
+      margin-top: 16px;
+    }
+    .grocery-list th, .grocery-list td {
+      padding: 6px 12px;
+      border-bottom: 1px solid #ccc;
+    }
+    .grocery-list th {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <header>
+      <span>Grocery List</span>
+    </header>
+    <nav>
+      <ul>
+        <li><a href="#">List</a></li>
+        <li><a href="#">Add Item</a></li>
+      </ul>
+    </nav>
+    <main>
+      <form class="grocery-form" id="groceryForm">
+        <input type="text" id="name" placeholder="Item name" required>
+        <input type="number" id="quantity" placeholder="Quantity" min="1" required>
+        <button type="submit">Add Item</button>
+      </form>
+      <table class="grocery-list" id="groceryTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Items will be rendered here -->
+        </tbody>
+      </table>
+    </main>
+    <footer>
+      &copy; 2025 Grocery App
+    </footer>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

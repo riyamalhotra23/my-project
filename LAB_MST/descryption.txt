@@ -1,0 +1,19 @@
+This project is a simple Grocery List web application.
+
+Features:
+
+Displays a list of grocery items, each with an ID, name, and quantity.
+Allows users to add new grocery items using a form.
+The list updates instantly when a new item is added.
+Files:
+
+index.html: The main HTML file containing the layout, form, and table for displaying groceries.
+styles.css: Contains styles for the layout, header, navigation, main content, and footer.
+script.js: Handles displaying the grocery list and adding new items dynamically.
+descryption.txt: This description file.
+How it works:
+
+The grocery list is shown in a table with columns for ID, Name, and Quantity.
+Users can add a new item by entering the name and quantity, then clicking "Add Item".
+The new item appears in the list with a unique ID.
+This app demonstrates basic HTML, CSS Grid layout, and JavaScript DOM manipulation.
