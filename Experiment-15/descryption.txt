@@ -1,0 +1,22 @@
+MVC (Model–View–Controller)
+
+Model: Represents data and business logic. In this experiment the Model layer uses Mongoose schemas to map to MongoDB collections (products, categories, users, reviews).
+
+View: UI templates (e.g., EJS, Pug, Handlebars, or a frontend framework) that render data to users.
+
+Controller: Receives HTTP requests, interacts with Models, and returns Views or JSON responses.
+
+MongoDB
+
+NoSQL document database storing JSON-like documents (BSON).
+
+Flexible schema approach ideal for product catalogs where different products may have different attributes.
+
+Use Mongoose (ODM) for schema definitions, validation, and easy query APIs in Node.js.
+
+REST principles
+
+Use standard HTTP verbs: GET (read), POST (create), PUT/PATCH (update), DELETE (delete).
+
+Endpoints should be resource-oriented: /products, /products/:id, /categories, etc.
+
