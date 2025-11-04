@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  labels:
+    app: user-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000
+  selector:
+    app: user-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: post-service
+  labels:
+    app: post-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3001
+      targetPort: 3001
+  selector:
+    app: post-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: comment-service
+  labels:
+    app: comment-service
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3002
+      targetPort: 3002
+  selector:
+    app: comment-service
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3003
+  selector:
+    app: api-gateway

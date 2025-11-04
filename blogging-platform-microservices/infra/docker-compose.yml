@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: ./services/user-service
+    ports:
+      - "5001:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/userdb
+    depends_on:
+      - mongo
+
+  post-service:
+    build:
+      context: ./services/post-service
+    ports:
+      - "5002:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/postdb
+    depends_on:
+      - mongo
+
+  comment-service:
+    build:
+      context: ./services/comment-service
+    ports:
+      - "5003:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/commentdb
+    depends_on:
+      - mongo
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "5000:5000"
+    depends_on:
+      - user-service
+      - post-service
+      - comment-service
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
