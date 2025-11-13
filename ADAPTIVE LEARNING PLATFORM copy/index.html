@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LearnFlow - Adaptive Learning Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://unpkg.com/splitting@1.0.6/dist/splitting.js"></script>
+    <link href="https://unpkg.com/splitting@1.0.6/dist/splitting.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sage: #2D5A3D;
+            --charcoal: #3A3A3A;
+            --cream: #F8F6F0;
+            --gold: #D4A574;
+            --blue: #5B7C99;
+            --coral: #C67B73;
+            --teal: #7A9B9B;
+            --amber: #B8A082;
+            --lavender: #A8A2B8;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #F0F4F0 100%);
+            color: var(--charcoal);
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, var(--sage) 0%, #3A6B4A 50%, var(--teal) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('resources/hero-main.png') center/cover;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(45, 90, 61, 0.15);
+        }
+        
+        .stats-counter {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--sage);
+        }
+        
+        .tech-stack-item {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(45, 90, 61, 0.1);
+        }
+        
+        .feature-demo {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(45, 90, 61, 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--sage);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--sage) 0%, #3A6B4A 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45, 90, 61, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--sage);
+            border: 2px solid var(--sage);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--sage);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-sage/10">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-sage to-teal rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">L</span>
+                    </div>
+                    <span class="text-xl font-bold text-charcoal">LearnFlow</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="nav-link text-charcoal/80 hover:text-sage">Features</a>
+                    <a href="#technology" class="nav-link text-charcoal/80 hover:text-sage">Technology</a>
+                    <a href="#demo" class="nav-link text-charcoal/80 hover:text-sage">Demo</a>
+                    <a href="student-dashboard.html" class="nav-link text-charcoal/80 hover:text-sage">Student Portal</a>
+                    <a href="instructor-analytics.html" class="nav-link text-charcoal/80 hover:text-sage">Instructor Portal</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="btn-secondary px-4 py-2 rounded-lg font-medium">Login</button>
+                    <button class="btn-primary px-6 py-2 rounded-lg font-medium">Get Started</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg min-h-screen flex items-center pt-20">
+        <div class="hero-content max-w-7xl mx-auto px-6 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="space-y-4">
+                        <h1 class="text-5xl lg:text-6xl font-bold text-white leading-tight">
+                            <span class="gradient-text" id="typed-heading"></span>
+                        </h1>
+                        <p class="text-xl text-white/90 leading-relaxed">
+                            Harness the power of adaptive algorithms and real-time analytics to create personalized learning experiences that evolve with every student. Built on the MERN stack with sophisticated AI-driven adaptation.
+                        </p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="btn-primary px-8 py-4 rounded-xl font-semibold text-lg">
+                            Explore Student Dashboard
+                        </button>
+                        <button class="btn-secondary px-8 py-4 rounded-xl font-semibold text-lg bg-white/10 border-white/30 text-white hover:bg-white hover:text-sage">
+                            View Instructor Analytics
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-8 pt-8">
+                        <div class="text-center">
+                            <div class="stats-counter text-white" data-target="42">0</div>
+                            <div class="text-white/80 text-sm">% Higher Completion</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="stats-counter text-white" data-target="35">0</div>
+                            <div class="text-white/80 text-sm">% Score Improvement</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="stats-counter text-white" data-target="28">0</div>
+                            <div class="text-white/80 text-sm">% Drop in Dropouts</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="feature-demo rounded-2xl p-8 space-y-6">
+                        <div class="text-center mb-6">
+                            <h3 class="text-2xl font-bold text-charcoal mb-2">Adaptive Learning in Action</h3>
+                            <p class="text-charcoal/70">Watch how our AI personalizes every learning experience</p>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-sage/10 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-semibold text-charcoal">Mathematics - Algebra</span>
+                                    <span class="text-sage font-bold">85% Mastery</span>
+                                </div>
+                                <div class="w-full bg-sage/20 rounded-full h-2">
+                                    <div class="bg-sage h-2 rounded-full mastery-progress" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-blue/10 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-semibold text-charcoal">Science - Physics</span>
+                                    <span class="text-blue font-bold">72% Mastery</span>
+                                </div>
+                                <div class="w-full bg-blue/20 rounded-full h-2">
+                                    <div class="bg-blue h-2 rounded-full mastery-progress" style="width: 72%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-gold/10 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="font-semibold text-charcoal">Language Arts</span>
+                                    <span class="text-amber-600 font-bold">91% Mastery</span>
+                                </div>
+                                <div class="w-full bg-amber-200 rounded-full h-2">
+                                    <div class="bg-amber-500 h-2 rounded-full mastery-progress" style="width: 91%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center pt-4">
+                            <div class="inline-flex items-center space-x-2 text-sage font-semibold">
+                                <div class="w-2 h-2 bg-sage rounded-full animate-pulse"></div>
+                                <span>AI Adapting to Learning Patterns</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating Elements -->
+        <div class="floating-element top-20 left-10 w-16 h-16 border-2 border-white/20 rounded-full"></div>
+        <div class="floating-element top-40 right-20 w-12 h-12 border-2 border-white/20 rounded-lg" style="animation-delay: -2s;"></div>
+        <div class="floating-element bottom-40 left-1/4 w-20 h-20 border-2 border-white/20 rounded-full" style="animation-delay: -4s;"></div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-charcoal mb-4">Intelligent Learning Features</h2>
+                <p class="text-xl text-charcoal/70 max-w-3xl mx-auto">
+                    Our platform combines cutting-edge AI with proven pedagogical principles to deliver truly personalized learning experiences.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card-hover bg-white rounded-2xl p-8 border border-sage/10">
+                    <div class="w-12 h-12 bg-sage/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-charcoal mb-3">Adaptive Assessment</h3>
+                    <p class="text-charcoal/70 mb-4">AI-driven question selection based on individual performance patterns and mastery levels, ensuring optimal challenge and engagement.</p>
+                    <ul class="text-sm text-charcoal/60 space-y-1">
+                        <li>• Real-time difficulty adjustment</li>
+                        <li>• Bloom's taxonomy progression</li>
+                        <li>• Spaced repetition optimization</li>
+                    </ul>
+                </div>
+
+                <div class="card-hover bg-white rounded-2xl p-8 border border-sage/10">
+                    <div class="w-12 h-12 bg-blue/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-charcoal mb-3">Progress Analytics</h3>
+                    <p class="text-charcoal/70 mb-4">Comprehensive tracking of learning velocity, mastery growth, and achievement patterns with predictive modeling for optimal outcomes.</p>
+                    <ul class="text-sm text-charcoal/60 space-y-1">
+                        <li>• Real-time progress visualization</li>
+                        <li>• Predictive performance modeling</li>
+                        <li>• Achievement streak tracking</li>
+                    </ul>
+                </div>
+
+                <div class="card-hover bg-white rounded-2xl p-8 border border-sage/10">
+                    <div class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-charcoal mb-3">Smart Content Bank</h3>
+                    <p class="text-charcoal/70 mb-4">Rich repository of questions with intelligent metadata tagging, supporting multiple formats and adaptive content delivery.</p>
+                    <ul class="text-sm text-charcoal/60 space-y-1">
+                        <li>• Multi-format question support</li>
+                        <li>• Intelligent metadata tagging</li>
+                        <li>• Performance-based optimization</li>
+                    </ul>
+                </div>
+
+                <div class="card-hover bg-white rounded-2xl p-8 border border-sage/10">
+                    <div class="w-12 h-12 bg-coral/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-charcoal mb-3">Rules Engine</h3>
+                    <p class="text-charcoal/70 mb-4">Configurable adaptation logic allowing instructors to customize learning paths, remediation triggers, and content sequencing.</p>
+                    <ul class="text-sm text-charcoal/60 space-y-1">
+                        <li>• JSON-based rule configuration</li>
+                        <li>• Custom adaptation strategies</li>
+                        <li>• A/B testing framework</li>
+                    </ul>
+                </div>
+
+                <div class="card-hover bg-white rounded-2xl p-8 border border-sage/10">
+                    <div class="w-12 h-12 bg-teal/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-charcoal mb-3">Instant Feedback</h3>
+                    <p class="text-charcoal/70 mb-4">Immediate correctness feedback with targeted explanations and resource recommendations for enhanced learning outcomes.</p>
+                    <ul class="text-sm text-charcoal/60 space-y-1">
+                        <li>• Real-time correctness feedback</li>
+                        <li>• Targeted explanation delivery</li>
+                        <li>• Resource recommendation engine</li>
+                    </ul>
+                </div>
+
+                <div class="card-hover bg-white rounded-2xl p-8 border border-sage/10">
+                    <div class="w-12 h-12 bg-lavender/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-lavender" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-charcoal mb-3">Secure & Scalable</h3>
+                    <p class="text-charcoal/70 mb-4">Enterprise-grade security with JWT authentication, role-based access, and scalable architecture for institutional deployment.</p>
+                    <ul class="text-sm text-charcoal/60 space-y-1">
+                        <li>• JWT-based authentication</li>
+                        <li>• Role-based access control</li>
+                        <li>• Scalable cloud architecture</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack Section -->
+    <section id="technology" class="py-20 bg-cream/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-charcoal mb-4">Built on Modern Technology</h2>
+                <p class="text-xl text-charcoal/70 max-w-3xl mx-auto">
+                    Leveraging the MERN stack with advanced AI algorithms to deliver enterprise-grade adaptive learning experiences.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="tech-stack-item rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold text-xl">N</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-charcoal mb-2">Node.js</h3>
+                    <p class="text-charcoal/60 text-sm">Scalable backend with Express.js framework</p>
+                </div>
+                
+                <div class="tech-stack-item rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-green-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold text-xl">M</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-charcoal mb-2">MongoDB</h3>
+                    <p class="text-charcoal/60 text-sm">Flexible document database for learning data</p>
+                </div>
+                
+                <div class="tech-stack-item rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-blue-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold text-xl">R</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-charcoal mb-2">React</h3>
+                    <p class="text-charcoal/60 text-sm">Dynamic user interfaces with hooks and context</p>
+                </div>
+                
+                <div class="tech-stack-item rounded-2xl p-6 text-center">
+                    <div class="w-16 h-16 bg-yellow-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <span class="text-white font-bold text-xl">E</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-charcoal mb-2">Express.js</h3>
+                    <p class="text-charcoal/60 text-sm">RESTful APIs with middleware architecture</p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-8 border border-sage/10">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold text-charcoal mb-4">Advanced AI Integration</h3>
+                        <p class="text-charcoal/70 mb-6">
+                            Our platform integrates sophisticated machine learning algorithms for pattern recognition, 
+                            predictive analytics, and personalized content delivery.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-sage rounded-full"></div>
+                                <span class="text-charcoal/80">Bayesian networks for student modeling</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-blue rounded-full"></div>
+                                <span class="text-charcoal/80">Reinforcement learning for adaptation</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-gold rounded-full"></div>
+                                <span class="text-charcoal/80">Natural language processing for feedback</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-teal rounded-full"></div>
+                                <span class="text-charcoal/80">Clustering algorithms for cohort analysis</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-sage/5 to-blue/5 rounded-xl p-6">
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-lg p-4 border border-sage/10">
+                                <div class="text-sm text-charcoal/60 mb-2">Learning Algorithm Performance</div>
+                                <div class="w-full bg-sage/20 rounded-full h-3">
+                                    <div class="bg-gradient-to-r from-sage to-blue h-3 rounded-full" style="width: 94%"></div>
+                                </div>
+                                <div class="text-right text-sm text-sage font-semibold mt-1">94% Accuracy</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-4 border border-sage/10">
+                                <div class="text-sm text-charcoal/60 mb-2">Content Personalization</div>
+                                <div class="w-full bg-gold/20 rounded-full h-3">
+                                    <div class="bg-gradient-to-r from-gold to-amber-500 h-3 rounded-full" style="width: 87%"></div>
+                                </div>
+                                <div class="text-right text-sm text-amber-600 font-semibold mt-1">87% Engagement</div>
+                            </div>
+                            <div class="bg-white rounded-lg p-4 border border-sage/10">
+                                <div class="text-sm text-charcoal/60 mb-2">Predictive Analytics</div>
+                                <div class="w-full bg-teal/20 rounded-full h-3">
+                                    <div class="bg-gradient-to-r from-teal to-blue h-3 rounded-full" style="width: 91%"></div>
+                                </div>
+                                <div class="text-right text-sm text-teal font-semibold mt-1">91% Precision</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-charcoal mb-4">Experience the Platform</h2>
+                <p class="text-xl text-charcoal/70 max-w-3xl mx-auto">
+                    Explore our interactive demos to see how adaptive learning transforms educational outcomes.
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="card-hover bg-gradient-to-br from-sage/5 to-blue/5 rounded-2xl p-8 border border-sage/10">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-sage rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-charcoal mb-2">Student Dashboard</h3>
+                        <p class="text-charcoal/70">Experience personalized learning with adaptive quizzes and real-time progress tracking.</p>
+                    </div>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-sage rounded-full"></div>
+                            <span class="text-charcoal/80">Adaptive question flows</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-sage rounded-full"></div>
+                            <span class="text-charcoal/80">Instant feedback and explanations</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-sage rounded-full"></div>
+                            <span class="text-charcoal/80">Mastery progress visualization</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-sage rounded-full"></div>
+                            <span class="text-charcoal/80">Achievement tracking</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a href="student-dashboard.html" class="btn-primary px-8 py-3 rounded-xl font-semibold inline-block">
+                            Try Student Demo
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card-hover bg-gradient-to-br from-blue/5 to-teal/5 rounded-2xl p-8 border border-blue/10">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-blue rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-charcoal mb-2">Instructor Analytics</h3>
+                        <p class="text-charcoal/70">Deep insights into student performance with comprehensive analytics and reporting tools.</p>
+                    </div>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-blue rounded-full"></div>
+                            <span class="text-charcoal/80">Cohort performance heatmaps</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-blue rounded-full"></div>
+                            <span class="text-charcoal/80">Individual learning trajectories</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-blue rounded-full"></div>
+                            <span class="text-charcoal/80">At-risk student identification</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-2 h-2 bg-blue rounded-full"></div>
+                            <span class="text-charcoal/80">Content effectiveness analysis</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a href="instructor-analytics.html" class="btn-primary px-8 py-3 rounded-xl font-semibold inline-block">
+                            Explore Analytics
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-charcoal text-white py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center">
+                <div class="flex items-center justify-center space-x-2 mb-4">
+                    <div class="w-8 h-8 bg-gradient-to-br from-sage to-teal rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">L</span>
+                    </div>
+                    <span class="text-xl font-bold">LearnFlow</span>
+                </div>
+                <p class="text-white/70 mb-6">Adaptive Learning Platform - Transforming Education Through AI</p>
+                <div class="text-white/50 text-sm">
+                    © 2025 LearnFlow. Built with modern web technologies and educational expertise.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

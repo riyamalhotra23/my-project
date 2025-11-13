@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Bank - LearnFlow</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sage: #2D5A3D;
+            --charcoal: #3A3A3A;
+            --cream: #F8F6F0;
+            --gold: #D4A574;
+            --blue: #5B7C99;
+            --coral: #C67B73;
+            --teal: #7A9B9B;
+            --amber: #B8A082;
+            --lavender: #A8A2B8;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #F0F4F0 100%);
+            color: var(--charcoal);
+        }
+        
+        .dashboard-bg {
+            background: linear-gradient(135deg, var(--cream) 0%, #F0F4F0 100%);
+            min-height: 100vh;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(45, 90, 61, 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--sage);
+        }
+        
+        .nav-link.active {
+            color: var(--sage);
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--sage) 0%, #3A6B4A 100%);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(45, 90, 61, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--sage);
+            border: 2px solid var(--sage);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--sage);
+            color: white;
+        }
+        
+        .question-card {
+            background: white;
+            border: 1px solid rgba(45, 90, 61, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .question-card:hover {
+            border-color: var(--sage);
+            box-shadow: 0 8px 16px rgba(45, 90, 61, 0.1);
+        }
+        
+        .question-card.selected {
+            border-color: var(--sage);
+            background: var(--sage)/5;
+        }
+        
+        .tag {
+            background: var(--sage)/10;
+            color: var(--sage);
+            transition: all 0.3s ease;
+        }
+        
+        .tag:hover {
+            background: var(--sage);
+            color: white;
+        }
+        
+        .difficulty-indicator {
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: #E5E7EB;
+            overflow: hidden;
+        }
+        
+        .difficulty-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .difficulty-easy { background: #10B981; }
+        .difficulty-medium { background: #F59E0B; }
+        .difficulty-hard { background: #EF4444; }
+        
+        .filter-chip {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .filter-chip.active {
+            background: var(--sage);
+            color: white;
+        }
+        
+        .search-input {
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            border-color: var(--sage);
+            box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.1);
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.03;
+            animation: float 12s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(20deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-bg">
+        <!-- Navigation -->
+        <nav class="fixed top-0 w-full bg-white/90 backdrop-blur-md z-50 border-b border-sage/10">
+            <div class="max-w-7xl mx-auto px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gradient-to-br from-sage to-teal rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">L</span>
+                        </div>
+                        <span class="text-xl font-bold text-charcoal">LearnFlow</span>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="index.html" class="nav-link text-charcoal/80 hover:text-sage">Home</a>
+                        <a href="student-dashboard.html" class="nav-link text-charcoal/80 hover:text-sage">Student</a>
+                        <a href="instructor-analytics.html" class="nav-link text-charcoal/80 hover:text-sage">Analytics</a>
+                        <a href="#" class="nav-link active">Content</a>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="btn-primary px-4 py-2 rounded-lg font-medium">
+                            ➕ Add Question
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="pt-24 pb-12">
+            <div class="max-w-7xl mx-auto px-6">
+                <!-- Header Section -->
+                <div class="mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h1 class="text-4xl font-bold text-charcoal mb-2">Question Bank</h1>
+                            <p class="text-xl text-charcoal/70">Manage and organize your educational content</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <button class="btn-secondary px-4 py-2 rounded-lg font-medium">
+                                📥 Import Questions
+                            </button>
+                            <button class="btn-secondary px-4 py-2 rounded-lg font-medium">
+                                📤 Export Bank
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Filters -->
+                <div class="bg-white rounded-2xl p-6 border border-sage/10 mb-8">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+                        <div class="flex-1 max-w-md">
+                            <div class="relative">
+                                <input type="text" placeholder="Search questions..." 
+                                       class="search-input w-full pl-10 pr-4 py-3 border border-sage/20 rounded-lg focus:outline-none">
+                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+                                    <svg class="w-5 h-5 text-charcoal/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap items-center gap-2">
+                            <div class="filter-chip px-3 py-1 rounded-full bg-sage text-white text-sm font-medium">
+                                All Subjects
+                            </div>
+                            <div class="filter-chip px-3 py-1 rounded-full bg-white border border-sage/20 text-charcoal text-sm font-medium">
+                                Mathematics
+                            </div>
+                            <div class="filter-chip px-3 py-1 rounded-full bg-white border border-sage/20 text-charcoal text-sm font-medium">
+                                Science
+                            </div>
+                            <div class="filter-chip px-3 py-1 rounded-full bg-white border border-sage/20 text-charcoal text-sm font-medium">
+                                Language Arts
+                            </div>
+                            <div class="filter-chip px-3 py-1 rounded-full bg-white border border-sage/20 text-charcoal text-sm font-medium">
+                                History
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap items-center gap-2 mt-4">
+                        <span class="text-sm text-charcoal/60">Bloom's Level:</span>
+                        <div class="filter-chip px-2 py-1 rounded bg-white border border-sage/20 text-charcoal text-xs">
+                            Remember
+                        </div>
+                        <div class="filter-chip px-2 py-1 rounded bg-white border border-sage/20 text-charcoal text-xs">
+                            Understand
+                        </div>
+                        <div class="filter-chip px-2 py-1 rounded bg-white border border-sage/20 text-charcoal text-xs">
+                            Apply
+                        </div>
+                        <div class="filter-chip px-2 py-1 rounded bg-white border border-sage/20 text-charcoal text-xs">
+                            Analyze
+                        </div>
+                        <div class="filter-chip px-2 py-1 rounded bg-white border border-sage/20 text-charcoal text-xs">
+                            Evaluate
+                        </div>
+                        <div class="filter-chip px-2 py-1 rounded bg-white border border-sage/20 text-charcoal text-xs">
+                            Create
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="grid md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-2xl p-6 border border-sage/10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-sage/10 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-2xl font-bold text-sage">2,847</div>
+                        </div>
+                        <div class="text-charcoal/60 text-sm">Total Questions</div>
+                        <div class="text-green-600 text-xs mt-2">↗ +156 this week</div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 border border-sage/10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-blue/10 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                </svg>
+                            </div>
+                            <div class="text-2xl font-bold text-blue">4.7</div>
+                        </div>
+                        <div class="text-charcoal/60 text-sm">Avg Quality Score</div>
+                        <div class="text-blue-600 text-xs mt-2">→ Stable</div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 border border-sage/10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-gold/10 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-2xl font-bold text-amber-600">89%</div>
+                        </div>
+                        <div class="text-charcoal/60 text-sm">Usage Rate</div>
+                        <div class="text-green-600 text-xs mt-2">↗ +12% this month</div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-6 border border-sage/10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-teal/10 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-2xl font-bold text-teal">98.2%</div>
+                        </div>
+                        <div class="text-charcoal/60 text-sm">Content Coverage</div>
+                        <div class="text-teal-600 text-xs mt-2">→ Comprehensive</div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Question List -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-2xl p-6 border border-sage/10">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-xl font-bold text-charcoal">Questions</h3>
+                                <div class="flex items-center space-x-2">
+                                    <select class="px-3 py-1 border border-sage/20 rounded-lg text-sm">
+                                        <option>Sort by: Recent</option>
+                                        <option>Sort by: Difficulty</option>
+                                        <option>Sort by: Usage</option>
+                                        <option>Sort by: Quality</option>
+                                    </select>
+                                    <button class="btn-secondary px-3 py-1 rounded-lg text-sm">
+                                        Bulk Actions
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div id="questions-list" class="space-y-4">
+                                <!-- Questions will be populated by JavaScript -->
+                            </div>
+                            
+                            <div class="mt-6 flex items-center justify-between">
+                                <div class="text-sm text-charcoal/60">
+                                    Showing 1-10 of 2,847 questions
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button class="px-3 py-1 border border-sage/20 rounded-lg text-sm text-charcoal/60">
+                                        Previous
+                                    </button>
+                                    <div class="flex space-x-1">
+                                        <button class="px-3 py-1 bg-sage text-white rounded-lg text-sm">1</button>
+                                        <button class="px-3 py-1 border border-sage/20 rounded-lg text-sm text-charcoal/60">2</button>
+                                        <button class="px-3 py-1 border border-sage/20 rounded-lg text-sm text-charcoal/60">3</button>
+                                        <span class="px-2 py-1 text-charcoal/40">...</span>
+                                        <button class="px-3 py-1 border border-sage/20 rounded-lg text-sm text-charcoal/60">285</button>
+                                    </div>
+                                    <button class="px-3 py-1 border border-sage/20 rounded-lg text-sm text-charcoal/60">
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sidebar -->
+                    <div class="space-y-8">
+                        <!-- Quick Stats -->
+                        <div class="bg-white rounded-2xl p-6 border border-sage/10">
+                            <h3 class="text-lg font-bold text-charcoal mb-4">Content Analytics</h3>
+                            <div id="content-chart" class="h-48"></div>
+                        </div>
+                        
+                        <!-- Subject Distribution -->
+                        <div class="bg-white rounded-2xl p-6 border border-sage/10">
+                            <h3 class="text-lg font-bold text-charcoal mb-4">Subject Distribution</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-3 h-3 bg-sage rounded-full"></div>
+                                        <span class="text-sm text-charcoal">Mathematics</span>
+                                    </div>
+                                    <div class="text-sm font-semibold text-charcoal">892</div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-3 h-3 bg-blue rounded-full"></div>
+                                        <span class="text-sm text-charcoal">Science</span>
+                                    </div>
+                                    <div class="text-sm font-semibold text-charcoal">654</div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-3 h-3 bg-amber-500 rounded-full"></div>
+                                        <span class="text-sm text-charcoal">Language Arts</span>
+                                    </div>
+                                    <div class="text-sm font-semibold text-charcoal">743</div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-3 h-3 bg-teal rounded-full"></div>
+                                        <span class="text-sm text-charcoal">History</span>
+                                    </div>
+                                    <div class="text-sm font-semibold text-charcoal">558</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quality Metrics -->
+                        <div class="bg-white rounded-2xl p-6 border border-sage/10">
+                            <h3 class="text-lg font-bold text-charcoal mb-4">Quality Metrics</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm text-charcoal/70">Difficulty Balance</span>
+                                        <span class="text-sm text-sage font-bold">Good</span>
+                                    </div>
+                                    <div class="w-full bg-sage/20 rounded-full h-2">
+                                        <div class="bg-sage h-2 rounded-full" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm text-charcoal/70">Bloom Distribution</span>
+                                        <span class="text-sm text-blue font-bold">Optimal</span>
+                                    </div>
+                                    <div class="w-full bg-blue/20 rounded-full h-2">
+                                        <div class="bg-blue h-2 rounded-full" style="width: 92%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm text-charcoal/70">Tag Coverage</span>
+                                        <span class="text-sm text-teal font-bold">Complete</span>
+                                    </div>
+                                    <div class="w-full bg-teal/20 rounded-full h-2">
+                                        <div class="bg-teal h-2 rounded-full" style="width: 98%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Recent Activity -->
+                        <div class="bg-white rounded-2xl p-6 border border-sage/10">
+                            <h3 class="text-lg font-bold text-charcoal mb-4">Recent Activity</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-start space-x-3 p-3 bg-sage/5 rounded-lg">
+                                    <div class="text-green-600 text-sm">✓</div>
+                                    <div>
+                                        <div class="font-semibold text-charcoal text-sm">Question Approved</div>
+                                        <div class="text-xs text-charcoal/60">Algebra - Linear Equations</div>
+                                        <div class="text-xs text-charcoal/40">2 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 p-3 bg-blue/5 rounded-lg">
+                                    <div class="text-blue-600 text-sm">📝</div>
+                                    <div>
+                                        <div class="font-semibold text-charcoal text-sm">Question Edited</div>
+                                        <div class="text-xs text-charcoal/60">Science - Physics</div>
+                                        <div class="text-xs text-charcoal/40">5 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3 p-3 bg-gold/5 rounded-lg">
+                                    <div class="text-amber-600 text-sm">➕</div>
+                                    <div>
+                                        <div class="font-semibold text-charcoal text-sm">Question Added</div>
+                                        <div class="text-xs text-charcoal/60">Language Arts - Grammar</div>
+                                        <div class="text-xs text-charcoal/40">1 day ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Floating Elements -->
+    <div class="floating-element top-20 left-10 w-40 h-40 bg-sage/5 rounded-full"></div>
+    <div class="floating-element top-40 right-20 w-32 h-32 bg-blue/5 rounded-lg" style="animation-delay: -6s;"></div>
+    <div class="floating-element bottom-40 left-1/4 w-48 h-48 bg-gold/5 rounded-full" style="animation-delay: -10s;"></div>
+
+    <script src="main.js"></script>
+    <script>
+        // Question Bank Management System
+        class QuestionBankManager {
+            constructor() {
+                this.questions = this.generateMockQuestions();
+                this.selectedQuestions = new Set();
+                this.currentFilter = 'all';
+                this.initializeEventListeners();
+                this.renderQuestions();
+                this.initializeChart();
+            }
+            
+            generateMockQuestions() {
+                const subjects = ['Mathematics', 'Science', 'Language Arts', 'History'];
+                const topics = {
+                    'Mathematics': ['Algebra', 'Geometry', 'Calculus', 'Statistics'],
+                    'Science': ['Physics', 'Chemistry', 'Biology', 'Earth Science'],
+                    'Language Arts': ['Grammar', 'Literature', 'Writing', 'Vocabulary'],
+                    'History': ['World History', 'US History', 'Government', 'Economics']
+                };
+                const bloomLevels = ['Remember', 'Understand', 'Apply', 'Analyze', 'Evaluate', 'Create'];
+                const difficulties = ['Easy', 'Medium', 'Hard'];
+                
+                const questions = [];
+                
+                for (let i = 1; i <= 50; i++) {
+                    const subject = subjects[Math.floor(Math.random() * subjects.length)];
+                    const topic = topics[subject][Math.floor(Math.random() * topics[subject].length)];
+                    const bloomLevel = bloomLevels[Math.floor(Math.random() * bloomLevels.length)];
+                    const difficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
+                    
+                    questions.push({
+                        id: i,
+                        subject,
+                        topic,
+                        bloomLevel,
+                        difficulty,
+                        question: this.generateQuestionText(subject, topic),
+                        usage: Math.floor(Math.random() * 150),
+                        quality: (Math.random() * 2 + 3).toFixed(1), // 3.0-5.0
+                        lastUsed: this.generateLastUsedDate(),
+                        tags: this.generateTags(subject, topic)
+                    });
+                }
+                
+                return questions;
+            }
+            
+            generateQuestionText(subject, topic) {
+                const questionTemplates = {
+                    'Mathematics': {
+                        'Algebra': 'Solve for x: 2x + 5 = 13',
+                        'Geometry': 'What is the area of a rectangle with length 8 and width 5?',
+                        'Calculus': 'Find the derivative of f(x) = x² + 3x - 2',
+                        'Statistics': 'What is the mean of the following data set: 4, 7, 9, 12, 15?'
+                    },
+                    'Science': {
+                        'Physics': 'If a car travels 120 km in 2 hours, what is its average speed?',
+                        'Chemistry': 'What is the chemical formula for water?',
+                        'Biology': 'What is the process by which plants make their own food?',
+                        'Earth Science': 'What layer of the Earth is located between the crust and the core?'
+                    },
+                    'Language Arts': {
+                        'Grammar': 'Which sentence is grammatically correct?',
+                        'Literature': 'Who wrote "Romeo and Juliet"?',
+                        'Writing': 'What is the main purpose of a thesis statement?',
+                        'Vocabulary': 'What does the word "ubiquitous" mean?'
+                    },
+                    'History': {
+                        'World History': 'In which year did World War II end?',
+                        'US History': 'Who was the first President of the United States?',
+                        'Government': 'What are the three branches of the US government?',
+                        'Economics': 'What is the law of supply and demand?'
+                    }
+                };
+                
+                return questionTemplates[subject][topic] || `Sample question about ${topic}`;
+            }
+            
+            generateLastUsedDate() {
+                const days = Math.floor(Math.random() * 30);
+                if (days === 0) return 'Today';
+                if (days === 1) return 'Yesterday';
+                return `${days} days ago`;
+            }
+            
+            generateTags(subject, topic) {
+                const baseTags = [subject.toLowerCase().replace(' ', '-'), topic.toLowerCase().replace(' ', '-')];
+                const additionalTags = ['core-concept', 'assessment', 'practice'];
+                return [...baseTags, ...additionalTags.slice(0, Math.floor(Math.random() * 3))];
+            }
+            
+            initializeEventListeners() {
+                // Filter chips
+                document.querySelectorAll('.filter-chip').forEach(chip => {
+                    chip.addEventListener('click', () => {
+                        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                        chip.classList.add('active');
+                        this.currentFilter = chip.textContent.trim();
+                        this.renderQuestions();
+                    });
+                });
+                
+                // Search input
+                const searchInput = document.querySelector('.search-input');
+                if (searchInput) {
+                    searchInput.addEventListener('input', (e) => {
+                        this.filterQuestions(e.target.value);
+                    });
+                }
+            }
+            
+            filterQuestions(searchTerm) {
+                const filtered = this.questions.filter(q => 
+                    q.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    q.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    q.topic.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    q.tags.some(tag => tag.includes(searchTerm.toLowerCase()))
+                );
+                this.renderFilteredQuestions(filtered);
+            }
+            
+            renderQuestions() {
+                const container = document.getElementById('questions-list');
+                if (!container) return;
+                
+                const displayQuestions = this.questions.slice(0, 10); // Show first 10
+                this.renderFilteredQuestions(displayQuestions);
+            }
+            
+            renderFilteredQuestions(questions) {
+                const container = document.getElementById('questions-list');
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                questions.forEach((question, index) => {
+                    const questionCard = this.createQuestionCard(question, index);
+                    container.appendChild(questionCard);
+                });
+                
+                // Animate cards
+                anime({
+                    targets: '.question-card',
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 500,
+                    delay: anime.stagger(100),
+                    easing: 'easeOutCubic'
+                });
+            }
+            
+            createQuestionCard(question, index) {
+                const card = document.createElement('div');
+                card.className = 'question-card rounded-lg p-4 border';
+                card.setAttribute('data-question-id', question.id);
+                
+                const difficultyClass = {
+                    'Easy': 'difficulty-easy',
+                    'Medium': 'difficulty-medium',
+                    'Hard': 'difficulty-hard'
+                }[question.difficulty];
+                
+                const difficultyWidth = {
+                    'Easy': '33%',
+                    'Medium': '66%',
+                    'Hard': '100%'
+                }[question.difficulty];
+                
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="tag px-2 py-1 rounded text-xs font-medium">${question.subject}</span>
+                                <span class="tag px-2 py-1 rounded text-xs font-medium">${question.topic}</span>
+                                <span class="tag px-2 py-1 rounded text-xs font-medium">${question.bloomLevel}</span>
+                            </div>
+                            <h4 class="font-semibold text-charcoal mb-2 line-clamp-2">${question.question}</h4>
+                            <div class="flex items-center space-x-4 text-sm text-charcoal/60">
+                                <span>Usage: ${question.usage}x</span>
+                                <span>Quality: ${question.quality}/5.0</span>
+                                <span>Last: ${question.lastUsed}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 ml-4">
+                            <button class="p-2 text-charcoal/40 hover:text-sage transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                </svg>
+                            </button>
+                            <button class="p-2 text-charcoal/40 hover:text-coral transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex flex-wrap gap-1">
+                            ${question.tags.slice(0, 3).map(tag => 
+                                `<span class="px-2 py-1 bg-sage/5 text-sage text-xs rounded">${tag}</span>`
+                            ).join('')}
+                            ${question.tags.length > 3 ? `<span class="px-2 py-1 bg-sage/5 text-sage text-xs rounded">+${question.tags.length - 3}</span>` : ''}
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs text-charcoal/60">${question.difficulty}</span>
+                            <div class="difficulty-indicator w-16">
+                                <div class="difficulty-fill ${difficultyClass}" style="width: ${difficultyWidth}"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add click handler
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('button')) {
+                        this.toggleQuestionSelection(question.id, card);
+                    }
+                });
+                
+                return card;
+            }
+            
+            toggleQuestionSelection(questionId, card) {
+                if (this.selectedQuestions.has(questionId)) {
+                    this.selectedQuestions.delete(questionId);
+                    card.classList.remove('selected');
+                } else {
+                    this.selectedQuestions.add(questionId);
+                    card.classList.add('selected');
+                }
+                
+                anime({
+                    targets: card,
+                    scale: [0.98, 1],
+                    duration: 200,
+                    easing: 'easeOutCubic'
+                });
+            }
+            
+            initializeChart() {
+                const chartDom = document.getElementById('content-chart');
+                if (!chartDom) return;
+                
+                const myChart = echarts.init(chartDom);
+                
+                const option = {
+                    tooltip: {
+                        trigger: 'item'
+                    },
+                    series: [{
+                        name: 'Content Quality',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: '16',
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: [
+                            { value: 45, name: 'Excellent', itemStyle: { color: '#2D5A3D' } },
+                            { value: 35, name: 'Good', itemStyle: { color: '#5B7C99' } },
+                            { value: 15, name: 'Fair', itemStyle: { color: '#D4A574' } },
+                            { value: 5, name: 'Poor', itemStyle: { color: '#C67B73' } }
+                        ]
+                    }]
+                };
+                
+                myChart.setOption(option);
+            }
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            window.questionBankManager = new QuestionBankManager();
+        });
+    </script>
+</body>
+</html>
