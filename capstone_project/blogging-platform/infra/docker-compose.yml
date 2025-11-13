@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: ./services/user-service
+    ports:
+      - "3001:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo-user:27017/userdb
+    depends_on:
+      - mongo-user
+    networks:
+      - blogging-network
+
+  post-service:
+    build:
+      context: ./services/post-service
+    ports:
+      - "3002:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo-post:27017/postdb
+    depends_on:
+      - mongo-post
+    networks:
+      - blogging-network
+
+  comment-service:
+    build:
+      context: ./services/comment-service
+    ports:
+      - "3003:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo-comment:27017/commentdb
+    depends_on:
+      - mongo-comment
+    networks:
+      - blogging-network
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user-service
+      - post-service
+      - comment-service
+    networks:
+      - blogging-network
+
+  mongo-user:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - blogging-network
+
+  mongo-post:
+    image: mongo
+    ports:
+      - "27018:27017"
+    networks:
+      - blogging-network
+
+  mongo-comment:
+    image: mongo
+    ports:
+      - "27019:27017"
+    networks:
+      - blogging-network
+
+networks:
+  blogging-network:
+    driver: bridge

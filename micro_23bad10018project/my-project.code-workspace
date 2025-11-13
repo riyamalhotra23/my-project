@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../my-project/CloudDeployment-Project/experiment-26"
+		},
+		{
+			"path": "../../../my-project/CloudDeployment-Project/experiment-25"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "my-project"
+	}
+}

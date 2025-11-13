@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  user-service:
+    build:
+      context: ./services/user-service
+    ports:
+      - "3001:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/userdb
+    depends_on:
+      - mongo
+    networks:
+      - nimbus-network
+
+  post-service:
+    build:
+      context: ./services/post-service
+    ports:
+      - "3002:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/postdb
+    depends_on:
+      - mongo
+    networks:
+      - nimbus-network
+
+  comment-service:
+    build:
+      context: ./services/comment-service
+    ports:
+      - "3003:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/commentdb
+    depends_on:
+      - mongo
+    networks:
+      - nimbus-network
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user-service
+      - post-service
+      - comment-service
+    networks:
+      - nimbus-network
+
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - nimbus-network
+
+networks:
+  nimbus-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
